@@ -2,15 +2,21 @@
 using namespace std;
 
 void menu();
-
+void userInput(vector<int> & arr);
+void timeTests();
+vector<int> insertionSort();
+vector<int> mergeSort();
 
 
 
 void menu(){
   char choice;
-  cout<<"Enter T to run time tests \nEnter I to accept user input and perform an insertion sort \nEnter M to accept user input and perform a merge sort \nEnter Q to quit"<<endl;
-  cin>>choice;
   vector<int> arr;
+  cout<<"Enter T to run time tests \n"
+      <<"Enter I to accept user input and perform an insertion sort \n"
+      <<"Enter M to accept user input and perform a merge sort \n"
+      <<"Enter Q to quit"<<endl;
+  cin>>choice;
 
   switch(choice){
 
@@ -19,11 +25,11 @@ void menu(){
       break;
     case 'I':
       userInput(arr);
-      insertionSort();
+      arr = insertionSort();
       break;
     case 'M':
       userInput(arr);
-      mergeSort();
+      arr = mergeSort();
       break;
     case 'Q': return;
   }
@@ -34,25 +40,18 @@ void userInput(vector<int> & arr){
   int elem;
   while(cin>>elem && elem!=-999)
     arr.push_back(elem);
-
 }
 
-
-
-
+void timeTests(){ }
 
 vector<int> insertionSort();
 
+vector<int> mergeSort();
 
 
 
 int main(){
-
-
-
-      
-
-  return 0;
+  menu();
 }
 
 
