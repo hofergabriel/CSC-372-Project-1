@@ -70,6 +70,9 @@ void printArr(vector<int> & v) {
     cout << endl;
 }
 
+/********************************************************************
+* @ descr - debugging and printing arrays
+*********************************************************************/
 void printD(vector<int>& v) {
     cout << "Debug: ";
     for (int i = 0; i < v.size(); i++)
@@ -121,31 +124,13 @@ vector<int> insertionSort(vector<int> & v) {
 * @params v - unsorted array
 *********************************************************************/
 vector<int> mergeSort(vector<int> v) {
-    printD(v);
     if (v.size()>1) {
-        cout << "one" << endl;
         vector<int> left, right;
-        
-
-        for (int i = 0; i < (v.size()+1) / 2; i++)
-            left.push_back(v[i]);
-        for (int i = (v.size()+1)/2; i < v.size(); i++)
-            right.push_back(v[i]);
-
-
-
-        cout << "LEFT: " << endl;
-        printD(left);
-        cout << "RIGHT: " << endl;
-        printD(right);
-
-        cout << "three" << endl;
+        for (int i = 0; i < (v.size()+1) / 2; i++) left.push_back(v[i]);
+        for (int i = (v.size()+1)/2; i < v.size(); i++) right.push_back(v[i]);
         left = mergeSort(left);
         right = mergeSort(right);
-        cout << "four" << endl;
-
         merge(left.begin(), left.end(), right.begin(), right.end(), v.begin());
-        cout << "five" << endl;
     }
     return v;
 }
