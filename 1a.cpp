@@ -7,7 +7,7 @@ void userInput(vector<int>& arr);
 void timeTests();
 void printArr(vector<int> & v);
 vector<int> insertionSort(vector<int> & v);
-vector<int> mergeSort(vector<int> v, int p, int r);
+vector<int> mergeSort(vector<int> v);
 
 
 /********************************************************************
@@ -40,7 +40,7 @@ void menu() {
             case 'M':
                 cout << "Running Merge Sort" << endl;
                 userInput(arr);
-                arr = mergeSort(arr,0,arr.size()-1);
+                arr = mergeSort(arr);
                 printArr(arr);
                 break;
             case 'Q': return;
@@ -63,8 +63,15 @@ void userInput(vector<int>& arr) {
 /********************************************************************
 * @descr - prints an array
 *********************************************************************/
-void printArr(vector<int>& v) {
+void printArr(vector<int> & v) {
     cout << "Array: ";
+    for (int i = 0; i < v.size(); i++)
+        cout << v[i] << ' ';
+    cout << endl;
+}
+
+void printD(vector<int>& v) {
+    cout << "Debug: ";
     for (int i = 0; i < v.size(); i++)
         cout << v[i] << ' ';
     cout << endl;
@@ -74,7 +81,10 @@ void printArr(vector<int>& v) {
 * @descr - runs time tests
 *********************************************************************/
 void timeTests() { 
-
+    vector<int> t1 = { 99, 88, 77, 66, 55, 44, 33, 22, 11, 5, -999 };
+    printArr(t1);
+    vector<int> t2 = mergeSort(t1);
+    printArr(t2);
 }
 
 /********************************************************************
@@ -110,17 +120,32 @@ vector<int> insertionSort(vector<int> & v) {
 * @description - sorts an array using merge sort
 * @params v - unsorted array
 *********************************************************************/
-vector<int> mergeSort(vector<int> v, int p, int r) {
-    if (p < r) {
+vector<int> mergeSort(vector<int> v) {
+    printD(v);
+    if (v.size()>1) {
+        cout << "one" << endl;
         vector<int> left, right;
-        int q = floor((p + r) / 2);
-        std::copy(v.begin(), v.begin() + q, left.begin());
-        std::copy(v.begin() + q + 1, v.begin()+ r, right.begin());
+        
 
-        left = mergeSort(left, p, q);
-        right = mergeSort(right, q + 1, r);
+        for (int i = 0; i < (v.size()+1) / 2; i++)
+            left.push_back(v[i]);
+        for (int i = (v.size()+1)/2; i < v.size(); i++)
+            right.push_back(v[i]);
 
-        inplace_merge(left.begin(), right.begin(), v.begin());
+
+
+        cout << "LEFT: " << endl;
+        printD(left);
+        cout << "RIGHT: " << endl;
+        printD(right);
+
+        cout << "three" << endl;
+        left = mergeSort(left);
+        right = mergeSort(right);
+        cout << "four" << endl;
+
+        merge(left.begin(), left.end(), right.begin(), right.end(), v.begin());
+        cout << "five" << endl;
     }
     return v;
 }
