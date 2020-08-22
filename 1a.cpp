@@ -1,6 +1,8 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <chrono>
+
 using namespace std;
 void menu();
 void userInput(vector<int>& arr);
@@ -8,7 +10,8 @@ void timeTests();
 void printArr(vector<int> & v);
 vector<int> insertionSort(vector<int> & v);
 vector<int> mergeSort(vector<int> v);
-
+vector<int> makeTest(int len);
+vector<vector<int>> makeAllTests(int testCount);
 
 /********************************************************************
 * @descr - displays menu for the user. calls appropriate functions 
@@ -84,10 +87,67 @@ void printD(vector<int>& v) {
 * @descr - runs time tests
 *********************************************************************/
 void timeTests() { 
+    /*
+    vector<vector<int>> tests = makeAllTests(100);
+    for (int i = 0; i < tests.size(); i++) {
+        cout << "test " << i + 1 << " : ";
+        for (int j = 0; j < tests[i].size(); j++) {
+            cout << tests[i][j] << ", ";
+        }
+        cout << endl;
+    }*/
+
+    vector<int> unsorted, sorted, test;
+    for (int i = 2; i <= 100; i+=2) {
+        test = makeTest(i);
+        printD(test);
+
+
+        /* Time Insertion Sort */
+        unsorted = test;
+        auto start = std::chrono::steady_clock::now();
+        sorted = insertionSort(unsorted);
+        auto end = std::chrono::steady_clock::now();
+        std::chrono::duration<double> elapsed_seconds = end - start;
+        std::cout << "elapsed time: " << elapsed_seconds.count() << "s\n";
+
+        /* Time Merge Sort */
+        unsorted = test;
+        start = std::chrono::steady_clock::now();
+        sorted = mergeSort(unsorted);
+        end = std::chrono::steady_clock::now();
+        elapsed_seconds = end - start;
+        std::cout << "elapsed time: " << elapsed_seconds.count() << "s\n";
+    }
+    
+    /*
     vector<int> t1 = { 99, 88, 77, 66, 55, 44, 33, 22, 11, 5, -999 };
     printArr(t1);
     vector<int> t2 = mergeSort(t1);
     printArr(t2);
+    */
+}
+
+/********************************************************************
+* @descr - makes all tests for timeTests function
+* @param testCount - number of tests to generate
+*********************************************************************/
+vector<vector<int>> makeAllTests(int testCount) {
+    vector<vector<int>> ret;
+    for (int i = 2; i <= testCount; i+=2)
+        ret.push_back(makeTest(i));
+    return ret;
+}
+
+/********************************************************************
+* @descr - generate one test
+* @param len - length of array to make
+*********************************************************************/
+vector<int> makeTest(int len) {
+    vector<int> ret;
+    for (int i = 0; i < len; i++)
+        ret.push_back(rand() % len);
+    return ret;
 }
 
 /********************************************************************
