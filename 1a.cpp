@@ -9,6 +9,7 @@ void userInput(vector<int>& arr);
 void timeTests();
 void printArr(vector<int> & v);
 vector<int> insertionSort(vector<int> & v);
+vector<int> myMergeSort(vector<int> v);
 vector<int> mergeSort(vector<int> v);
 vector<int> makeTest(int len);
 vector<vector<int>> makeAllTests(int testCount);
@@ -98,7 +99,8 @@ void timeTests() {
     }*/
 
     vector<int> unsorted, sorted, test;
-    for (int i = 2; i <= 100; i+=2) {
+    for (int i = 1500; i <= 1500; i+=2) {
+        cout << "------------------------Test n = " << i << "----------------------------------" << endl;
         test = makeTest(i);
         printD(test);
 
@@ -109,7 +111,7 @@ void timeTests() {
         sorted = insertionSort(unsorted);
         auto end = std::chrono::steady_clock::now();
         std::chrono::duration<double> elapsed_seconds = end - start;
-        std::cout << "elapsed time: " << elapsed_seconds.count() << "s\n";
+        std::cout << "Insertion S, elapsed time: " << elapsed_seconds.count() << "s\n";
 
         /* Time Merge Sort */
         unsorted = test;
@@ -117,7 +119,7 @@ void timeTests() {
         sorted = mergeSort(unsorted);
         end = std::chrono::steady_clock::now();
         elapsed_seconds = end - start;
-        std::cout << "elapsed time: " << elapsed_seconds.count() << "s\n";
+        std::cout << "Merge S, elapsed time: " << elapsed_seconds.count() << "s\n";
     }
     
     /*
@@ -180,14 +182,42 @@ vector<int> insertionSort(vector<int> & v) {
 }
 
 /********************************************************************
-* @description - sorts an array using merge sort
+* @description - sorts an array using merge sort. Uses my personal
+* merge algorithms using two pointers.
+* @params v - unsorted array
+*********************************************************************/
+vector<int> myMergeSort(vector<int> v) {
+    if (v.size() > 1) {
+        vector<int> left((v.size() + 1) / 2);
+        vector<int> right(v.size() - left.size());
+        for (int i = 0; i < (v.size() + 1) / 2; i++) left[i]=v[i];
+        for (int i = 0; i < v.size()-left.size(); i++) right[i]=v[i+left.size()];
+        left = mergeSort(left);
+        right = mergeSort(right);        
+        int l = 0, r = 0;
+        while (l<left.size() && r<right.size()) {
+            if (left[l] <= right[r]) {
+                v[l + r] = left[l];
+                l++;
+            } else {
+                v[l + r] = right[r];
+                r++;
+            }
+        }
+    }
+    return v;
+}
+
+/********************************************************************
+* @description - sorts an array using merge sort. It calls the 
+* merge function in the <algorithms> library.
 * @params v - unsorted array
 *********************************************************************/
 vector<int> mergeSort(vector<int> v) {
-    if (v.size()>1) {
+    if (v.size() > 1) {
         vector<int> left, right;
-        for (int i = 0; i < (v.size()+1) / 2; i++) left.push_back(v[i]);
-        for (int i = (v.size()+1)/2; i < v.size(); i++) right.push_back(v[i]);
+        for (int i = 0; i < (v.size() + 1) / 2; i++) left.push_back(v[i]);
+        for (int i = (v.size() + 1) / 2; i < v.size(); i++) right.push_back(v[i]);
         left = mergeSort(left);
         right = mergeSort(right);
         merge(left.begin(), left.end(), right.begin(), right.end(), v.begin());
