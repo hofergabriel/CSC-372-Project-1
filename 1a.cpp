@@ -26,26 +26,24 @@ void menu() {
             << "Enter M to accept user input and perform a merge sort \n"
             << "Enter Q to quit" << endl;
         cin >> choice;
-
         switch (choice) {
-
-        case 'T':
-            cout << "Running Time Tests" << endl;
-            timeTests();
-            break;
-        case 'I':
-            cout << "Running Insertion Sort" << endl;
-            userInput(arr);
-            arr = insertionSort(arr);
-            printArr(arr);
-            break;
-        case 'M':
-            cout << "Running Merge Sort" << endl;
-            userInput(arr);
-            arr = mergeSort(arr,0,arr.size()-1);
-            printArr(arr);
-            break;
-        case 'Q': return;
+            case 'T':
+                cout << "Running Time Tests" << endl;
+                timeTests();
+                break;
+            case 'I':
+                cout << "Running Insertion Sort" << endl;
+                userInput(arr);
+                arr = insertionSort(arr);
+                printArr(arr);
+                break;
+            case 'M':
+                cout << "Running Merge Sort" << endl;
+                userInput(arr);
+                arr = mergeSort(arr,0,arr.size()-1);
+                printArr(arr);
+                break;
+            case 'Q': return;
         }
     }
 }
