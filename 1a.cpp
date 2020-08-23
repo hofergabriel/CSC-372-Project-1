@@ -13,6 +13,8 @@ vector<int> myMergeSort(vector<int> v);
 vector<int> mergeSort(vector<int> v);
 vector<int> makeTest(int len);
 vector<vector<int>> makeAllTests(int testCount);
+void correctnessTests();
+bool isSorted(vector<int>& v, int len);
 
 /********************************************************************
 * @descr - displays menu for the user. calls appropriate functions 
@@ -28,6 +30,7 @@ void menu() {
         cout << "Enter T to run time tests \n"
             << "Enter I to accept user input and perform an insertion sort \n"
             << "Enter M to accept user input and perform a merge sort \n"
+            << "Enter C to run correction tests \n"
             << "Enter Q to quit" << endl;
         cin >> choice;
         switch (choice) {
@@ -47,6 +50,9 @@ void menu() {
                 arr = mergeSort(arr);
                 printArr(arr);
                 break;
+            case 'C':
+                cout << "Running Correctness Tests" << endl;
+                correctnessTests();
             case 'Q': return;
         }
     }
@@ -57,7 +63,7 @@ void menu() {
 * element is equal to -999, then we stop reading elements and return
 * the array by reference to the calling function.
 *********************************************************************/
-void userInput(vector<int>& arr) {
+void userInput(vector<int> & arr) {
     arr.clear();
     int elem;
     while (cin >> elem && elem != -999)
@@ -77,8 +83,7 @@ void printArr(vector<int> & v) {
 /********************************************************************
 * @ descr - debugging and printing arrays
 *********************************************************************/
-void printD(vector<int>& v) {
-    cout << "Debug: ";
+void printD(vector<int> & v) {
     for (int i = 0; i < v.size(); i++)
         cout << v[i] << ' ';
     cout << endl;
@@ -88,24 +93,11 @@ void printD(vector<int>& v) {
 * @descr - runs time tests
 *********************************************************************/
 void timeTests() { 
-    /*
-    vector<vector<int>> tests = makeAllTests(100);
-    for (int i = 0; i < tests.size(); i++) {
-        cout << "test " << i + 1 << " : ";
-        for (int j = 0; j < tests[i].size(); j++) {
-            cout << tests[i][j] << ", ";
-        }
-        cout << endl;
-    }*/
-
     vector<int> unsorted, sorted, test;
     for (int i = 1500; i <= 1500; i+=2) {
-        cout << "------------------------Test n = " << i << "----------------------------------" << endl;
         test = makeTest(i);
-        printD(test);
 
-
-        /* Time Insertion Sort */
+        /******************* Time Insertion Sort ********************/
         unsorted = test;
         auto start = std::chrono::steady_clock::now();
         sorted = insertionSort(unsorted);
@@ -113,7 +105,7 @@ void timeTests() {
         std::chrono::duration<double> elapsed_seconds = end - start;
         std::cout << "Insertion S, elapsed time: " << elapsed_seconds.count() << "s\n";
 
-        /* Time Merge Sort */
+        /******************* Time Merge Sort ************************/
         unsorted = test;
         start = std::chrono::steady_clock::now();
         sorted = mergeSort(unsorted);
@@ -121,13 +113,6 @@ void timeTests() {
         elapsed_seconds = end - start;
         std::cout << "Merge S, elapsed time: " << elapsed_seconds.count() << "s\n";
     }
-    
-    /*
-    vector<int> t1 = { 99, 88, 77, 66, 55, 44, 33, 22, 11, 5, -999 };
-    printArr(t1);
-    vector<int> t2 = mergeSort(t1);
-    printArr(t2);
-    */
 }
 
 /********************************************************************
@@ -152,11 +137,47 @@ vector<int> makeTest(int len) {
     return ret;
 }
 
+
+/********************************************************************
+* @dscr - correctness tests: run sorting functions on many arrays of
+* varrying sizes. 
+**********************************************************************/
+void correctnessTests() {
+    vector<int> unsorted, sorted, test;
+    for (int i = 1; i < 20; i++) {
+        test = makeTest(i);
+        cout << "test: ";
+        printArr(test);
+        /********************* Insertion Sort ************************/
+        unsorted = test;
+        sorted = insertionSort(unsorted);
+        if (!isSorted(sorted,i)) {
+            cout << "NOT SORTED!" << endl;
+            return;
+        }
+        cout << "insertion : ";
+        printArr(sorted);
+        /******************** Merge Sort *****************************/
+        unsorted = test;
+        sorted = mergeSort(unsorted);
+        if (!isSorted(sorted,i)) {
+            cout << "NOT SORTED!" << endl;
+            return;
+        }
+        cout << "merge:      ";
+        printArr(sorted);
+        cout << endl;
+    }
+    cout << "everything was sorted correctly" << endl;
+}
+
+
 /********************************************************************
 * @descr - returns true if array is sorted and false otherwise. Used
 * in timeTests function. 
 *********************************************************************/
-bool isSorted(vector<int> & v) {
+bool isSorted(vector<int> & v, int len) {
+    if (v.size() != len) return false; // if lengths of initial array and sorted array are different, return false;
     for (int i = 1; i < v.size(); i++) 
         if (v[i] < v[i - 1])
             return false;
