@@ -2,6 +2,7 @@
 #include <vector>
 #include <algorithm>
 #include <chrono>
+#include <fstream>
 
 using namespace std;
 void menu();
@@ -94,7 +95,15 @@ void printD(vector<int> & v) {
 *********************************************************************/
 void timeTests() { 
     vector<int> unsorted, sorted, test;
-    for (int i = 1500; i <= 1500; i+=2) {
+    
+    // write data to file
+    ofstream fout;
+    fout.open("timeTests.csv");
+    
+    for (int i = 2; i <= 10000; i+=200) {
+        fout << i << ", ";
+        cout << i << ", ";
+        
         test = makeTest(i);
 
         /******************* Time Insertion Sort ********************/
@@ -103,7 +112,11 @@ void timeTests() {
         sorted = insertionSort(unsorted);
         auto end = std::chrono::steady_clock::now();
         std::chrono::duration<double> elapsed_seconds = end - start;
-        std::cout << "Insertion S, elapsed time: " << elapsed_seconds.count() << "s\n";
+            
+        fout << elapsed_seconds.count() << ", ";
+        cout << elapsed_seconds.count() << ", ";
+
+        //std::cout << "Insertion S, elapsed time: " << elapsed_seconds.count() << "s\n";
 
         /******************* Time Merge Sort ************************/
         unsorted = test;
@@ -111,7 +124,11 @@ void timeTests() {
         sorted = mergeSort(unsorted);
         end = std::chrono::steady_clock::now();
         elapsed_seconds = end - start;
-        std::cout << "Merge S, elapsed time: " << elapsed_seconds.count() << "s\n";
+
+        fout << elapsed_seconds.count() << "\n";
+        cout << elapsed_seconds.count() << "\n";
+
+        //std::cout << "Merge S, elapsed time: " << elapsed_seconds.count() << "s\n";
     }
 }
 
@@ -137,7 +154,6 @@ vector<int> makeTest(int len) {
     return ret;
 }
 
-
 /********************************************************************
 * @dscr - correctness tests: run sorting functions on many arrays of
 * varrying sizes. 
@@ -146,8 +162,8 @@ void correctnessTests() {
     vector<int> unsorted, sorted, test;
     for (int i = 1; i < 20; i++) {
         test = makeTest(i);
-        cout << "test: ";
-        printArr(test);
+        //cout << "test: ";
+        //printArr(test);
         /********************* Insertion Sort ************************/
         unsorted = test;
         sorted = insertionSort(unsorted);
@@ -155,8 +171,8 @@ void correctnessTests() {
             cout << "NOT SORTED!" << endl;
             return;
         }
-        cout << "insertion : ";
-        printArr(sorted);
+        //cout << "insertion : ";
+        //printArr(sorted);
         /******************** Merge Sort *****************************/
         unsorted = test;
         sorted = mergeSort(unsorted);
@@ -164,13 +180,12 @@ void correctnessTests() {
             cout << "NOT SORTED!" << endl;
             return;
         }
-        cout << "merge:      ";
-        printArr(sorted);
+        //cout << "merge:      ";
+        //printArr(sorted);
         cout << endl;
     }
     cout << "everything was sorted correctly" << endl;
 }
-
 
 /********************************************************************
 * @descr - returns true if array is sorted and false otherwise. Used
