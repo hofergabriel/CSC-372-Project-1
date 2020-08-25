@@ -10,10 +10,8 @@ void userInput(vector<int>& arr);
 void timeTests();
 void printArr(vector<int> & v);
 vector<int> insertionSort(vector<int> & v);
-vector<int> myMergeSort(vector<int> v);
 vector<int> mergeSort(vector<int> v);
 vector<int> makeTest(int len);
-vector<vector<int>> makeAllTests(int testCount);
 void correctnessTests();
 bool isSorted(vector<int>& v, int len);
 
@@ -34,7 +32,7 @@ void menu() {
             << "Enter C to run correction tests \n"
             << "Enter Q to quit" << endl;
         cin >> choice;
-        switch (choice) {
+        switch (toupper(choice)) {
             case 'T':
                 cout << "Running Time Tests" << endl;
                 timeTests();
@@ -54,6 +52,7 @@ void menu() {
             case 'C':
                 cout << "Running Correctness Tests" << endl;
                 correctnessTests();
+                break;
             case 'Q': return;
         }
     }
@@ -82,28 +81,15 @@ void printArr(vector<int> & v) {
 }
 
 /********************************************************************
-* @ descr - debugging and printing arrays
-*********************************************************************/
-void printD(vector<int> & v) {
-    for (int i = 0; i < v.size(); i++)
-        cout << v[i] << ' ';
-    cout << endl;
-}
-
-/********************************************************************
 * @descr - runs time tests
 *********************************************************************/
 void timeTests() { 
     vector<int> unsorted, sorted, test;
-    
-    // write data to file
     ofstream fout;
     fout.open("timeTests.csv");
-    
-    for (int i = 2; i <= 10000; i+=200) {
+    for (int i = 2; i <= 2000; i+=50) {
         fout << i << ", ";
         cout << i << ", ";
-        
         test = makeTest(i);
 
         /******************* Time Insertion Sort ********************/
@@ -116,8 +102,6 @@ void timeTests() {
         fout << elapsed_seconds.count() << ", ";
         cout << elapsed_seconds.count() << ", ";
 
-        //std::cout << "Insertion S, elapsed time: " << elapsed_seconds.count() << "s\n";
-
         /******************* Time Merge Sort ************************/
         unsorted = test;
         start = std::chrono::steady_clock::now();
@@ -128,19 +112,7 @@ void timeTests() {
         fout << elapsed_seconds.count() << "\n";
         cout << elapsed_seconds.count() << "\n";
 
-        //std::cout << "Merge S, elapsed time: " << elapsed_seconds.count() << "s\n";
     }
-}
-
-/********************************************************************
-* @descr - makes all tests for timeTests function
-* @param testCount - number of tests to generate
-*********************************************************************/
-vector<vector<int>> makeAllTests(int testCount) {
-    vector<vector<int>> ret;
-    for (int i = 2; i <= testCount; i+=2)
-        ret.push_back(makeTest(i));
-    return ret;
 }
 
 /********************************************************************
@@ -160,28 +132,33 @@ vector<int> makeTest(int len) {
 **********************************************************************/
 void correctnessTests() {
     vector<int> unsorted, sorted, test;
-    for (int i = 1; i < 20; i++) {
+    for (int i = 1; i < 100; i++) {
         test = makeTest(i);
-        //cout << "test: ";
-        //printArr(test);
+        cout << "test: ";
+        printArr(test);
         /********************* Insertion Sort ************************/
         unsorted = test;
         sorted = insertionSort(unsorted);
+
+        cout << "insertion : ";
+        printArr(sorted);
+
         if (!isSorted(sorted,i)) {
             cout << "NOT SORTED!" << endl;
             return;
         }
-        //cout << "insertion : ";
-        //printArr(sorted);
+
         /******************** Merge Sort *****************************/
         unsorted = test;
         sorted = mergeSort(unsorted);
+        
+        cout << "merge:      ";
+        printArr(sorted);
+
         if (!isSorted(sorted,i)) {
             cout << "NOT SORTED!" << endl;
             return;
         }
-        //cout << "merge:      ";
-        //printArr(sorted);
         cout << endl;
     }
     cout << "everything was sorted correctly" << endl;
@@ -222,41 +199,34 @@ vector<int> insertionSort(vector<int> & v) {
 * merge algorithms using two pointers.
 * @params v - unsorted array
 *********************************************************************/
-vector<int> myMergeSort(vector<int> v) {
+vector<int> mergeSort(vector<int> v) {
     if (v.size() > 1) {
         vector<int> left((v.size() + 1) / 2);
         vector<int> right(v.size() - left.size());
-        for (int i = 0; i < (v.size() + 1) / 2; i++) left[i]=v[i];
-        for (int i = 0; i < v.size()-left.size(); i++) right[i]=v[i+left.size()];
+        for (int i = 0; i < (v.size() + 1) / 2; i++) 
+            left[i]=v[i];
+        for (int i = 0; i < v.size()-left.size(); i++) 
+            right[i]=v[i+left.size()];
         left = mergeSort(left);
-        right = mergeSort(right);        
+        right = mergeSort(right);   
         int l = 0, r = 0;
         while (l<left.size() && r<right.size()) {
             if (left[l] <= right[r]) {
-                v[l + r] = left[l];
+                v[l+r] = left[l];
                 l++;
             } else {
-                v[l + r] = right[r];
+                v[l+r] = right[r];
                 r++;
             }
         }
-    }
-    return v;
-}
-
-/********************************************************************
-* @description - sorts an array using merge sort. It calls the 
-* merge function in the <algorithms> library.
-* @params v - unsorted array
-*********************************************************************/
-vector<int> mergeSort(vector<int> v) {
-    if (v.size() > 1) {
-        vector<int> left, right;
-        for (int i = 0; i < (v.size() + 1) / 2; i++) left.push_back(v[i]);
-        for (int i = (v.size() + 1) / 2; i < v.size(); i++) right.push_back(v[i]);
-        left = mergeSort(left);
-        right = mergeSort(right);
-        merge(left.begin(), left.end(), right.begin(), right.end(), v.begin());
+        while (l < left.size()) {
+            v[l + r] = left[l];
+            l++;
+        }
+        while (r < right.size()) {
+            v[l + r] = right[r];
+            r++;
+        }
     }
     return v;
 }
