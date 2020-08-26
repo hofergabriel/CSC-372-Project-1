@@ -90,8 +90,8 @@ void printArr(vector<int> & v) {
 void timeTests() { 
     vector<int> unsorted, sorted, test;
     ofstream fout;
-    fout.open("timeTests.csv");
-    for (int i = 2; i <= 2000; i+=50) {
+    fout.open("timeTests2.csv");
+    for (int i = 2; i <= 5000; i+=100) {
         fout << i << ", ";
         cout << i << ", ";
         test = makeTest(i);
@@ -138,7 +138,7 @@ vector<int> makeTest(int len) {
 **********************************************************************/
 void correctnessTests() {
     vector<int> unsorted, sorted, test;
-    for (int i = 1; i < 500; i++) {
+    for (int i = 1; i < 200; i++) {
         test = makeTest(i);
         cout << "test: ";
         printArr(test);
@@ -198,11 +198,9 @@ vector<int> insertionSort(vector<int> & v) {
 * GRADING:MERGE
 *********************************************************************/
 void merge(vector<int>& v, int p, int q, int r) {
-    vector<int> left(q - p + 1), right(r - q);
+    vector<int> left(q - p + 1 + 1, INT_MAX), right(r - q + 1, INT_MAX);
     for (int i = p, j = 0; i <= q; i++, j++) left[j] = v[i];
     for (int i = q + 1, j = 0; i <= r; i++, j++) right[j] = v[i];
-    left.push_back(INT_MAX);
-    right.push_back(INT_MAX);
     for (int i = p, j = 0, k = 0; i <= r; i++)
         v[i] = (left[j] <= right[k]) ? left[j++] : right[k++];
 }
