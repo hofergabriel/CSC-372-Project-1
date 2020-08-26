@@ -221,22 +221,14 @@ vector<int> insertionSort(vector<int> & v) {
 
 
 
-void merge(vector<int> & v, int p, int q, int r) {
-    vector<int> left(q-p+1), right(r-q);
-    for (int i = 0; i < q - p + 1; i++) left[i] = v[i];
-    for (int i = 0; i < r - q; i++) right[i] = v[i + left.size()];
+void merge(vector<int>& v, int p, int q, int r) {
+    vector<int> left(q - p + 1), right(r - q);
+    for (int i = p, j = 0; i <= q; i++, j++) left[j] = v[i];
+    for (int i = q + 1, j = 0; i <= r; i++, j++) right[j] = v[i];
     left.push_back(INT_MAX);
     right.push_back(INT_MAX);
-    cout << "p: " << p << " q : " << q << " r: " << r << endl;
-    cout << "v.size(): " << v.size() << endl;
-    cout << "left.size(): " << left.size() << endl;
-    cout << "right.size(): " << right.size() << endl;
-    for (int i = p, l = 0, r = 0; i <= r; i++) {// merge
-        cout << "one" << endl;
-        cout << "l: " << l << " r: " << r << endl;
-        v[i] = (left[l] <= right[r]) ? left[l++] : right[r++];
-        cout << "two" << endl;
-    }
+    for (int i = p, j = 0, k = 0; i <= r; i++)
+        v[i] = (left[j] <= right[k]) ? left[j++] : right[k++];
 }
 
 
