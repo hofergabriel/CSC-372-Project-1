@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <chrono>
 #include <fstream>
+#include <climits>
 
 using namespace std;
 void menu();
@@ -197,36 +198,23 @@ vector<int> insertionSort(vector<int> & v) {
 /********************************************************************
 * @description - sorts an array using merge sort. Uses my personal
 * merge algorithms using two pointers.
+* 
+* Note that the value of INT_MAX is used as a sentinel to mark
+* the end of the 'left' and 'right' vectors. 
 * @params v - unsorted array
+* 
 *********************************************************************/
 vector<int> mergeSort(vector<int> v) {
     if (v.size() > 1) {
-        vector<int> left((v.size() + 1) / 2);
-        vector<int> right(v.size() - left.size());
-        for (int i = 0; i < (v.size() + 1) / 2; i++) 
-            left[i]=v[i];
-        for (int i = 0; i < v.size()-left.size(); i++) 
-            right[i]=v[i+left.size()];
+        vector<int> left((v.size() + 1) / 2), right(v.size() - left.size());
+        for (int i = 0; i < left.size(); i++) left[i]=v[i];
+        for (int i = 0; i < right.size(); i++) right[i]=v[i+left.size()];
         left = mergeSort(left);
-        right = mergeSort(right);   
-        int l = 0, r = 0;
-        while (l<left.size() && r<right.size()) {
-            if (left[l] <= right[r]) {
-                v[l+r] = left[l];
-                l++;
-            } else {
-                v[l+r] = right[r];
-                r++;
-            }
-        }
-        while (l < left.size()) {
-            v[l + r] = left[l];
-            l++;
-        }
-        while (r < right.size()) {
-            v[l + r] = right[r];
-            r++;
-        }
+        right = mergeSort(right);  
+        left.push_back(INT_MAX);
+        right.push_back(INT_MAX);
+        for (int i = 0, l = 0, r = 0; i < v.size(); i++)
+            v[i] = (left[l] <= right[r]) ? left[l++] : right[r++];
     }
     return v;
 }
