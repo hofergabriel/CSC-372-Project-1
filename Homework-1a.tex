@@ -1,5 +1,9 @@
-\documentclass[12pt]{article}
+\documentclass[10pt, a4paper]{article}
+%\documentclass[10pt, twocolumn, a4paper]{article}
 \usepackage{listings}
+\usepackage{pdfpages}
+\usepackage[legalpaper, margin=1in]{geometry}
+
 %------------------------------------------------------------------------------------
 \begin{document}
 \begin{titlepage}
@@ -28,14 +32,14 @@
 
        \vfill
 
-       Department: Computer Science and Engineering\\
+       Department of Computer Science and Engineering\\
        South Dakota School of Mines and Technology\\
 
    \end{center}
 \end{titlepage}
 %------------------------------------------------------------------------------------
 \newpage
-\section{Introductory Information}
+\textbf{Introductory Information}
 
 \begin{enumerate}
 
@@ -49,7 +53,7 @@
     \textbf{One week}
 
   \item (3 pt) What is the ONLY option to bring up your grade at the end of the semester? \\
-    \textbf{Take the optional second chance }
+    \textbf{Take the optional second chance Exam}
 
   \item (8 pt) When did you attend ZOOM office hours after Aug 19 (this will confirmed later)? \\
     \textbf{August 21, 2020  }
@@ -65,7 +69,90 @@
 
     %  ------------------------End: Graded all or nothing------------------------------------------
   \item 9. (6 pt) What is the run time for the following code. You MUST show your work for any credit \\ 
-    \textbf{Run Time = O(x * y * z * n)}
+
+  \begin{lstlisting}
+  Let A be an array of size n
+  for a in the range of 1 to x
+      for b in the range of 1 to y
+          for c in the range of 1 to z
+              print all of A
+
+  \end{lstlisting}
+
+  The outer loop executes x times. The first nested loop executes y times. 
+    The second nested loop executes z times. Printing all of A requires n operations.
+    Because these loops are all nested, we multiply their run times together. 
+
+  Runtime = $ O(x) * O(y) * O(z) * O(n) $
+
+  Runtime = $ O(x * y * z * n) $
+
+    \section{a.}
+
+  \textbf{Insertion Sort: }
+  \begin{lstlisting}
+    vector<int> insertionSort(vector<int> & v) {
+        int key, i;
+        for (int j = 1; j < v.size(); j++) {
+            key = v[j];
+            i = j - 1;
+            while (i >= 0 && v[i] > key) {
+                v[i + 1] = v[i];
+                i--;
+            }
+            v[i + 1] = key;
+        }
+        return v;
+    }
+  \end{lstlisting}
+
+  \textbf{Merge Sort:}
+  \begin{lstlisting}
+    vector<int> mergeSort(vector<int> v) {
+        if (v.size() > 1) {
+            vector<int> left((v.size() + 1) / 2);
+            vector<int> right(v.size() - left.size());
+            for (int i = 0; i < (v.size() + 1) / 2; i++) 
+                left[i]=v[i];
+            for (int i = 0; i < v.size()-left.size(); i++) 
+                right[i]=v[i+left.size()];
+            left = mergeSort(left);
+            right = mergeSort(right);   
+            int l = 0, r = 0;
+            while (l<left.size() && r<right.size()) {
+                if (left[l] <= right[r]) {
+                    v[l+r] = left[l];
+                    l++;
+                } else {
+                    v[l+r] = right[r];
+                    r++;
+                }
+            }
+            while (l < left.size()) {
+                v[l + r] = left[l];
+                l++;
+            }
+            while (r < right.size()) {
+                v[l + r] = right[r];
+                r++;
+            }
+        }
+        return v;
+    }
+  \end{lstlisting}
+
+  \section{b.}
+
+  \section{c. }
+  \subsection{a. OUTPUTing runtimes}b
+
+  \subsection{Tables}
+  \includepdf[scale=.8,pages=-,pagecommand=\subsection{Insertion Sort vs Merge Sort for Small N}]{smallNtable.pdf}
+  \includepdf[scale=.8,pages=-,pagecommand=\subsection{Insertion Sort and Merge Sort for Large N}]{largeNtable.pdf}
+    \section{d. Charts}
+  \includepdf[scale=1,pages=-]{smallNchart.pdf}
+  \includepdf[scale=1,pages=-]{largeNchart.pdf}
+  % \section{Analysis}
 
 \end{enumerate}
 
