@@ -35,23 +35,23 @@ void menu() {
         cin >> choice;
         switch (toupper(choice)) {
             case 'T':
-                cout << "Running Time Tests" << endl;
+                cout << "Time Tests" << endl;
                 timeTests();
                 break;
             case 'I':
-                cout << "Running Insertion Sort" << endl;
+                cout << "Insertion Sort" << endl;
                 userInput(arr);
                 arr = insertionSort(arr);
                 printArr(arr);
                 break;
             case 'M':
-                cout << "Running Merge Sort" << endl;
+                cout << "Merge Sort" << endl;
                 userInput(arr);
                 arr = mergeSort(arr);
                 printArr(arr);
                 break;
             case 'C':
-                cout << "Running Correctness Tests" << endl;
+                cout << "Correctness Tests" << endl;
                 correctnessTests();
                 break;
             case 'Q': return;
@@ -66,6 +66,7 @@ void menu() {
 *********************************************************************/
 void userInput(vector<int> & arr) {
     arr.clear();
+    cout << "\nInput: ";
     int elem;
     while (cin >> elem && elem != -999)
         arr.push_back(elem);
@@ -75,10 +76,10 @@ void userInput(vector<int> & arr) {
 * @descr - prints an array
 *********************************************************************/
 void printArr(vector<int> & v) {
-    cout << "Array: ";
+    cout << "\nSorted: ";
     for (int i = 0; i < v.size(); i++)
         cout << v[i] << ' ';
-    cout << endl;
+    cout << endl << endl;
 }
 
 /********************************************************************
@@ -133,29 +134,22 @@ vector<int> makeTest(int len) {
 **********************************************************************/
 void correctnessTests() {
     vector<int> unsorted, sorted, test;
-    for (int i = 1; i < 100; i++) {
+    for (int i = 1; i < 500; i++) {
         test = makeTest(i);
         cout << "test: ";
         printArr(test);
         /********************* Insertion Sort ************************/
         unsorted = test;
         sorted = insertionSort(unsorted);
-
-        cout << "insertion : ";
         printArr(sorted);
-
         if (!isSorted(sorted,i)) {
             cout << "NOT SORTED!" << endl;
             return;
         }
-
         /******************** Merge Sort *****************************/
         unsorted = test;
         sorted = mergeSort(unsorted);
-        
-        cout << "merge:      ";
         printArr(sorted);
-
         if (!isSorted(sorted,i)) {
             cout << "NOT SORTED!" << endl;
             return;
@@ -170,7 +164,7 @@ void correctnessTests() {
 * in timeTests function. 
 *********************************************************************/
 bool isSorted(vector<int> & v, int len) {
-    if (v.size() != len) return false; // if lengths of initial array and sorted array are different, return false;
+    if (v.size() != len) return false; 
     for (int i = 1; i < v.size(); i++) 
         if (v[i] < v[i - 1])
             return false;
