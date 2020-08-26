@@ -11,7 +11,8 @@ void userInput(vector<int>& arr);
 void timeTests();
 void printArr(vector<int> & v);
 vector<int> insertionSort(vector<int> & v);
-vector<int> mergeSort(vector<int> v);
+void merge(vector<int>& v, int p, int q, int r);
+void mergeSort(vector<int> & v, int p, int r);
 vector<int> makeTest(int len);
 void correctnessTests();
 bool isSorted(vector<int>& v, int len);
@@ -47,7 +48,8 @@ void menu() {
             case 'M':
                 cout << "Merge Sort" << endl;
                 userInput(arr);
-                arr = mergeSort(arr);
+                //arr = mergeSort(arr);
+                mergeSort(arr, 0, arr.size()-1);
                 printArr(arr);
                 break;
             case 'C':
@@ -107,7 +109,9 @@ void timeTests() {
         /******************* Time Merge Sort ************************/
         unsorted = test;
         start = std::chrono::steady_clock::now();
-        sorted = mergeSort(unsorted);
+        //sorted = mergeSort(unsorted);
+        mergeSort(unsorted, 0, unsorted.size()-1);
+        sorted = unsorted;
         end = std::chrono::steady_clock::now();
         elapsed_seconds = end - start;
 
@@ -148,7 +152,9 @@ void correctnessTests() {
         }
         /******************** Merge Sort *****************************/
         unsorted = test;
-        sorted = mergeSort(unsorted);
+        //sorted = mergeSort(unsorted);
+        mergeSort(unsorted, 0, unsorted.size()-1);
+        sorted = unsorted;
         printArr(sorted);
         if (!isSorted(sorted,i)) {
             cout << "NOT SORTED!" << endl;
@@ -198,20 +204,51 @@ vector<int> insertionSort(vector<int> & v) {
 * @params v - unsorted array
 * 
 *********************************************************************/
-vector<int> mergeSort(vector<int> v) {
+/*vector<int> mergeSort(vector<int> v) {
     if (v.size() > 1) {
         vector<int> left((v.size() + 1) / 2), right(v.size() - left.size());
         for (int i = 0; i < left.size(); i++) left[i]=v[i];
         for (int i = 0; i < right.size(); i++) right[i]=v[i+left.size()];
-        left = mergeSort(left);
+        left = mergeSort(left); 
         right = mergeSort(right);  
         left.push_back(INT_MAX);
         right.push_back(INT_MAX);
-        for (int i = 0, l = 0, r = 0; i < v.size(); i++)
+        for (int i = 0, l = 0, r = 0; i < v.size(); i++) // merge
             v[i] = (left[l] <= right[r]) ? left[l++] : right[r++];
     }
     return v;
+}*/
+
+
+
+void merge(vector<int> & v, int p, int q, int r) {
+    vector<int> left(q-p+1), right(r-q);
+    for (int i = 0; i < q - p + 1; i++) left[i] = v[i];
+    for (int i = 0; i < r - q; i++) right[i] = v[i + left.size()];
+    left.push_back(INT_MAX);
+    right.push_back(INT_MAX);
+    cout << "p: " << p << " q : " << q << " r: " << r << endl;
+    cout << "v.size(): " << v.size() << endl;
+    cout << "left.size(): " << left.size() << endl;
+    cout << "right.size(): " << right.size() << endl;
+    for (int i = p, l = 0, r = 0; i <= r; i++) {// merge
+        cout << "one" << endl;
+        cout << "l: " << l << " r: " << r << endl;
+        v[i] = (left[l] <= right[r]) ? left[l++] : right[r++];
+        cout << "two" << endl;
+    }
 }
+
+
+void mergeSort(vector<int> & v, int p, int r) {
+    if (p < r) {
+        int q = (p + r) / 2;
+        mergeSort(v, p, q);
+        mergeSort(v, q + 1, r);
+        merge(v, p, q, r);
+    }
+}
+
 
 /********************************************************************
 * @descr - Begins execution of the program. calls the menu function
