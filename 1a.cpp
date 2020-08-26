@@ -178,8 +178,7 @@ bool isSorted(vector<int> & v, int len) {
 }
 
 /********************************************************************
-* @description - sorts an array using insertion sort
-* @params v - unsorted array 
+* GRADING:INSERT
 *********************************************************************/
 vector<int> insertionSort(vector<int> & v) {
     int key, i;
@@ -196,31 +195,8 @@ vector<int> insertionSort(vector<int> & v) {
 }
 
 /********************************************************************
-* @description - sorts an array using merge sort. Uses my personal
-* merge algorithms using two pointers.
-* 
-* Note that the value of INT_MAX is used as a sentinel to mark
-* the end of the 'left' and 'right' vectors. 
-* @params v - unsorted array
-* 
+* GRADING:MERGE
 *********************************************************************/
-/*vector<int> mergeSort(vector<int> v) {
-    if (v.size() > 1) {
-        vector<int> left((v.size() + 1) / 2), right(v.size() - left.size());
-        for (int i = 0; i < left.size(); i++) left[i]=v[i];
-        for (int i = 0; i < right.size(); i++) right[i]=v[i+left.size()];
-        left = mergeSort(left); 
-        right = mergeSort(right);  
-        left.push_back(INT_MAX);
-        right.push_back(INT_MAX);
-        for (int i = 0, l = 0, r = 0; i < v.size(); i++) // merge
-            v[i] = (left[l] <= right[r]) ? left[l++] : right[r++];
-    }
-    return v;
-}*/
-
-
-
 void merge(vector<int>& v, int p, int q, int r) {
     vector<int> left(q - p + 1), right(r - q);
     for (int i = p, j = 0; i <= q; i++, j++) left[j] = v[i];
@@ -231,7 +207,9 @@ void merge(vector<int>& v, int p, int q, int r) {
         v[i] = (left[j] <= right[k]) ? left[j++] : right[k++];
 }
 
-
+/********************************************************************
+* @ GRADING:MERGE
+*********************************************************************/
 void mergeSort(vector<int> & v, int p, int r) {
     if (p < r) {
         int q = (p + r) / 2;
@@ -240,7 +218,6 @@ void mergeSort(vector<int> & v, int p, int r) {
         merge(v, p, q, r);
     }
 }
-
 
 /********************************************************************
 * @descr - Begins execution of the program. calls the menu function
