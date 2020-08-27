@@ -1,5 +1,4 @@
-\documentclass[10pt, a4paper]{article}
-%\documentclass[10pt, twocolumn, a4paper]{article}
+\documentclass[8pt, a4paper]{article}
 \usepackage{listings}
 \usepackage{pdfpages}
 \usepackage[legalpaper, margin=1in]{geometry}
@@ -23,11 +22,11 @@
 
        \vspace{0.5cm}
 
-       Instructor: Dr. R
+       Instructor: Dr. Rebenitsch
 
        \vspace{0.5cm}
 
-       Section 1 DUE: Thursday, Aug 27th, at 7AM  \newline
+       Section 1 DUE: Thursday, Aug 27th, at 7AM \\ 
        Section 2 DUE: Thursday, Sept 3 th, at 7AM  
 
        \vfill
@@ -68,7 +67,7 @@
     \textbf{Check-in Completed}
 
     %  ------------------------End: Graded all or nothing------------------------------------------
-  \item 9. (6 pt) What is the run time for the following code. You MUST show your work for any credit \\ 
+  \item (6 pt) What is the run time for the following code. You MUST show your work for any credit \\ 
 
   \begin{lstlisting}
   Let A be an array of size n
@@ -76,19 +75,17 @@
       for b in the range of 1 to y
           for c in the range of 1 to z
               print all of A
-
   \end{lstlisting}
 
   The outer loop executes x times. The first nested loop executes y times. 
-    The second nested loop executes z times. Printing all of A requires n operations.
-    Because these loops are all nested, we multiply their run times together. 
+  The second nested loop executes z times. Printing all of A requires n operations.
+  Because these loops are all nested, we multiply their run times together. 
 
-  Runtime = $ O(x) * O(y) * O(z) * O(n) $
+    \[
+      \textrm{Runtime} = O(x) * O(y) * O(z) * O(n) \Rightarrow \textrm{Runtime} = O(x * y * z * n)
+    \]
 
-  Runtime = $ O(x * y * z * n) $
-
-    \section{a.}
-
+%  \newpage
   \textbf{Insertion Sort: }
   \begin{lstlisting}
     vector<int> insertionSort(vector<int> & v) {
@@ -107,52 +104,31 @@
   \end{lstlisting}
 
   \textbf{Merge Sort:}
+
   \begin{lstlisting}
-    vector<int> mergeSort(vector<int> v) {
-        if (v.size() > 1) {
-            vector<int> left((v.size() + 1) / 2);
-            vector<int> right(v.size() - left.size());
-            for (int i = 0; i < (v.size() + 1) / 2; i++) 
-                left[i]=v[i];
-            for (int i = 0; i < v.size()-left.size(); i++) 
-                right[i]=v[i+left.size()];
-            left = mergeSort(left);
-            right = mergeSort(right);   
-            int l = 0, r = 0;
-            while (l<left.size() && r<right.size()) {
-                if (left[l] <= right[r]) {
-                    v[l+r] = left[l];
-                    l++;
-                } else {
-                    v[l+r] = right[r];
-                    r++;
-                }
-            }
-            while (l < left.size()) {
-                v[l + r] = left[l];
-                l++;
-            }
-            while (r < right.size()) {
-                v[l + r] = right[r];
-                r++;
-            }
+    void merge(vector<int> & A, int p, int q, int r) {
+        vector<int> L(q - p + 1 + 1, INT_MAX), R(r - q + 1, INT_MAX);
+        for (int i = p, j = 0; i <= q; i++, j++) L[j] = A[i];
+        for (int i = q + 1, j = 0; i <= r; i++, j++) R[j] = A[i];
+        for (int i = p, j = 0, k = 0; i <= r; i++)
+            A[i] = (L[j] <= R[k]) ? L[j++] : R[k++];
+    }
+    
+    void mergeSort(vector<int> & A, int p, int r) {
+        if (p < r) {
+            int q = (p + r) / 2;
+            mergeSort(A, p, q);
+            mergeSort(A, q + 1, r);
+            merge(A, p, q, r);
         }
-        return v;
     }
   \end{lstlisting}
 
-  \section{b.}
+  \includepdf[scale=1,pages=-,pagecommand=\textbf{Records and Data}]{two_tables.pdf}
+  \includepdf[scale=1,pages=-,pagecommand=\textbf{Plotting Insertion Sort vs Merge Sort}]{two_graphs.pdf}
 
-  \section{c. }
-  \subsection{a. OUTPUTing runtimes}b
-
-  \subsection{Tables}
-  \includepdf[scale=.8,pages=-,pagecommand=\subsection{Insertion Sort vs Merge Sort for Small N}]{smallNtable.pdf}
-  \includepdf[scale=.8,pages=-,pagecommand=\subsection{Insertion Sort and Merge Sort for Large N}]{largeNtable.pdf}
-    \section{d. Charts}
-  \includepdf[scale=1,pages=-]{smallNchart.pdf}
-  \includepdf[scale=1,pages=-]{largeNchart.pdf}
-  % \section{Analysis}
+  % pagecommand=\subsection{Insertion Sort and Merge Sort for Large N}
+  % \includepdf[scale=.8,pages=-,pagecommand=\subsection{Insertion Sort and Merge Sort for Large N}]{largeNtable.pdf}
 
 \end{enumerate}
 
