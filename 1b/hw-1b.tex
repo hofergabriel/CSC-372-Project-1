@@ -1,0 +1,84 @@
+\documentclass[8pt, a4paper]{article}
+\usepackage{listings}
+\usepackage{pdfpages}
+\usepackage[legalpaper, margin=1in]{geometry}
+\usepackage{amsmath}
+
+%------------------------------------------------------------------------------------
+\begin{document}
+\begin{titlepage}
+   \begin{center}
+       \vspace*{1cm}
+       \large
+       \textbf{Homework 1: Introduction to Algorithmic Analysis and Recurrence}
+       \normalsize
+
+       \vspace{0.5cm}
+
+       \textbf{Author: Gabriel Hofer}
+
+       \vspace{0.5cm}
+
+       CSC-372 Analysis of Algorithms
+
+       \vspace{0.5cm}
+
+       Instructor: Dr. Rebenitsch
+
+       \vspace{0.5cm}
+
+       Section 1 DUE: Thursday, Aug 27th, at 7AM \\ 
+       Section 2 DUE: Thursday, Sept 3 th, at 7AM  
+
+       \vfill
+
+       Department of Computer Science and Engineering\\
+       South Dakota School of Mines and Technology\\
+
+   \end{center}
+\end{titlepage}
+%------------------------------------------------------------------------------------
+\newpage
+\subsection*{Section 2: Recursion Analysis}
+
+1) (26 pt) Determine the run time (bit-O) for the following recurrence formula using the tree or substitution method.
+You may use the master method only to check your answer. \\ 
+
+\[
+  T(n) =  
+  \begin{cases}
+    1 & n = 1  \\
+    2T(\frac{n}{3}) + n^3 & n > 1  \\
+  \end{cases}
+\]
+
+We assume or ``guess'' that the solution is $ T(n) = O(n^3 log(n)) $.
+
+We want to show that $ T(n) \leq d \cdot n^3 log(n) $ for some constant $ d > 0 $.
+
+
+
+
+
+2) (26 pt) Determine the run time (big-O) for the following recurrence formula using the tree or substitution method.
+You may use the master method only to check your answer. \\
+
+
+3) (12 pt) Determine which case of the Master Theorem applies for the following recurrences. Include the values of
+a, b, and k (and ideally $b^k$) as proof of your selection. Also, include the final big-theta formula. 
+You also have teh option of a recurrence relation that cannot use the master method as described in class, 
+in which case, state it "fails". \\
+
+  a. $ T(n) = 2T (\frac{n}{2}) + \sqrt{n} $
+
+
+
+
+\end{document}
+
+
+
+
+
+
+
