@@ -41,7 +41,7 @@
 \newpage
 \subsection*{Section 2: Recursion Analysis}
 
-\textbf{1) (26 pt) Determine the run time (bit-O) for the following recurrence formula using the tree or substitution method.
+\textbf{1. (26 pt) Determine the run time (bit-O) for the following recurrence formula using the tree or substitution method.
 You may use the master method only to check your answer. } \\ 
 
 \[
@@ -74,14 +74,14 @@ Substitution Method: \\
   \leq d \cdot n^2 \cdot log(n) + n^2
 \]
 \begin{center}
-  When d is sufficiently large we drop the $ n^2 $ term:
+  When $d$ is sufficiently large we drop the $ n^2 $ term:
 \end{center}
 \[
   d \cdot n^2 \cdot log(n)
 \]
 \\
 
-\textbf{2) (26 pt) Determine the run time (big-O) for the following recurrence formula using the tree or substitution method.
+\textbf{2. (26 pt) Determine the run time (big-O) for the following recurrence formula using the tree or substitution method.
 You may use the master method only to check your answer.} \\
 
 \[
@@ -114,29 +114,46 @@ Substitution Method: \\
   \leq d \cdot n^3 \cdot log(n) + n^3
 \]
 \begin{center}
-  When d is sufficiently large we drop the $ n^3 $ term:
+  When $d$ is sufficiently large we drop the $ n^3 $ term:
 \end{center}
 \[
   d \cdot n^3 \cdot log(n)
 \]
 \newpage
 
-\textbf{3) (12 pt) Determine which case of the Master Theorem applies for the following recurrences. Include the values of
+\textbf{3. (12 pt) Determine which case of the Master Theorem applies for the following recurrences. Include the values of
 a, b, and k (and ideally $b^k$) as proof of your selection. Also, include the final big-theta formula. 
 You also have teh option of a recurrence relation that cannot use the master method as described in class, 
 in which case, state it "fails". }
 
   a. $ T(n) = 2T \left( \frac{n}{2} \right) + \sqrt{n} $ \\
 
+  \[
+    a=2, b=2, f(n)=\sqrt(n)
+  \]
+
   b. $ T(n) = 3T \left( \frac{n}{4} \right) + n^2 $ \\
+
+  \[
+    a=3, b=4, f(n)=n^2
+  \]
 
   c. $ T(n) = 2T \left( \frac{n}{4} \right) + T \left( \frac{n}{2} \right) + n^3 $ \\
 
+  \[
+    a=2, b=2, f(n) = n^3
+  \]
+
+
   d. $ T(n) = 16T \left( \frac{n}{2} \right) + n^4 $ \\
+
+  \[
+    a=16, b=2, f(n) = n^4
+  \]
 
 
 \newpage
-\textbf{4) (10 pt) Prove the correctness of the outer loop of the following 2D array summation using
+\textbf{4. (10 pt) Prove the correctness of the outer loop of the following 2D array summation using
 the loop invariant technique.}
 
 \begin{lstlisting}
@@ -152,7 +169,7 @@ the loop invariant technique.}
 
 \textbf{Maintenance:} Let $x$ be the current row in the matrix and let $y$ be the current column in the matrix.
 Let's use zero-indexing. At cell $A[x][y]$ in the matrix, we know that, for rows 0 to x-1, every element in every column
-has been added to the sum. And, we know that, for the current row, x, every element in every element from 
+has been added to the sum. And, we know that, for the current row, x, every element from 
 columns 0 to y has been added to the sum.  \\
 
 \textbf{Termination:} When the outer loop terminates, all rows have been visited. Since every cell is visited 
@@ -163,33 +180,33 @@ every cell in array A. \\
 world problem, so some ambiguity exists. Therefore, you must also list any assumptions,
 and explain why you removed the other sort options. Your options are insertion, selection,
 bubble, merge, quick, and heap. Consider stability, in-place, data structure, etc. in your
-answer: \\ 
+answer: }\\ 
 
 \begin{center}
   Problem: You want to sort the number of steps taken per day in the last 2 years on a smart
 watch.
 \end{center}
-} \\
 
-Assumptions: The watch is not a smart watch. The watch has little memory. 
+\textbf{Assumptions:} The watch is not a smart watch. The watch has little memory.  \\
 
-Two years of data is $ 365 * 2 = 730 $
-
-n=730 is small enough so that it would be quick to compute regardless of which algorithm 
-is choosen to sort the data. 
-
+Two years of data is $ n = 365 * 2 = 730 $.
 So, the most important factor in choosing which algorithm to use is memory. 
-
 Quicksort is not a practical choice because it is a recursive algorithm and would 
-require a structure such as a stack to keep track of each function call. A stack is likely 
-not available on a watch. 
+require a structure such as a stack to keep track of each function call. A stack is not available
+on our watch.
+Mergesort requires O(n log(n)) extra memory. 
 
-Mergesort requires O(n log(n)) extra memory. Let's look for something better. 
-
-Algorithms such as heapsort, bubble sort, insertion sort, 
+Another important factor in choosing the right sorting algorithm is speed. 
+So, we are left with four sorting algorithms which are all in-place.
+In theory, an O(n log(n)) algorithm would sort the steps in $T(n) = 730 log(730) $ operations
+while an $O(n^2)$ algorithm would sort the list of steps in $T(n) = 730 * 730 $ operations.
+Therefore it would be faster to sort using a log-linear sorting algorithm. 
+Consequently, we choose Heapsort because it is faster than Bubble Sort, Insertion Sort, Selection Sort.
+Heapsort is an in-place sorting algorithm. On average it performs at O(n log(n)). The worst case 
+performance of heapsort is O(n log(n)). 
 
 \newpage
-\textbf{6) (18 pt) Write the resulting recurrence relation (the T(n) piece-wise function) for the
+\textbf{6. (18 pt) Write the resulting recurrence relation (the T(n) piece-wise function) for the
 following pseudocode where A is an arrays of integers: } \\
 
 \begin{lstlisting}
@@ -204,12 +221,13 @@ following pseudocode where A is an arrays of integers: } \\
       FUNC(A, s + cut1 + cut2 + 1, e)
 \end{lstlisting} 
 
-Recurrence relation solution: 
+\textbf{Solution:}  
+
 \[
   T(n) = T \left( \frac{n}{2} \right) + 2T \left( \frac{n}{4} \right) + n;
 \]
 
-Explanation: First, an assumption that we make in our analysis is that
+\textbf{Explanation:} First, an assumption that we make in our analysis is that
 array, A, is passed by reference so that A doesn't have to be copied 
 for every function call. 
 There are three recursive function calls in FUNC. 
