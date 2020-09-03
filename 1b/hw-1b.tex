@@ -10,7 +10,7 @@
    \begin{center}
        \vspace*{1cm}
        \large
-       \textbf{Homework 1: Introduction to Algorithmic Analysis and Recurrence}
+       \textbf{Homework 1b: Introduction to Algorithmic Analysis and Recurrence}
        \normalsize
 
        \vspace{0.5cm}
@@ -56,7 +56,7 @@ Substitution Method: \\
 
 1. We guess that the form of the solution is $ T(n) = O(n^2 log(n)) $.
 
-2. We want to show by mathematical induction that $ T(n) \leq d \cdot n^2 log(n) $ for some constant $ d > 0 $. \\ 
+2. We want to show by mathematical induction that $ T(n) \leq d \cdot n^2 log(n) $ for some constant $ d > 0 $. 
 
 \[
   T(n) = 3T \left(\frac{n}{4} \right) + n^2
@@ -96,7 +96,7 @@ Substitution Method: \\
 
 1. We guess that the form of the solution is $ T(n) = O(n^3 log(n)) $.
 
-2. We want to show by mathematical induction that $ T(n) \leq d \cdot n^3 log(n) $ for some constant $ d > 0 $. \\ 
+2. We want to show by mathematical induction that $ T(n) \leq d \cdot n^3 log(n) $ for some constant $ d > 0 $. 
 
 \[
   T(n) = 2T \left(\frac{n}{3} \right) + n^3
@@ -131,6 +131,54 @@ in which case, state it "fails". \\
 
   a. $ T(n) = 2T (\frac{n}{2}) + \sqrt{n} $
 
+
+\newpage
+4)
+
+5)
+
+\textbf{6) (18 pt) Write the resulting recurrence relation (the T(n) piece-wise function) for the
+following pseudocode where A is an arrays of integers: } \\
+
+\begin{lstlisting}
+  FUNC(A, s, e)
+      if s >= e
+          print s, e, and all of A[1..n]
+          return
+      cut1 = (e - s) / 2
+      cut2 = (e - s) / 4
+      FUNC(A, s, s + cut1)
+      FUNC(A, s + cut1 + 1, s + cut1 + cut2)
+      FUNC(A, s + cut1 + cut2 + 1, e)
+\end{lstlisting} 
+
+Recurrence relation solution: 
+\[
+  T(n) = T \left( \frac{n}{2} \right) + 2T \left( \frac{n}{4} \right) + n;
+\]
+
+Explanation: First, an assumption that we make in our analysis is that
+array, A, is passed by reference so that A doesn't have to be copied 
+for every function call. 
+There are three recursive function calls in FUNC. 
+cut1 is half of the distance between the start, $s$, and end, $e$, of the current segment 
+of the array. cut2 is one forth of the distance between the start and end
+of the current segment of the array.
+Each of the three recursive function calls pass arguments which effectivly shorten the range 
+between the start and end of the array.
+The first function call, FUNC(A, s, s + cut1), essentially passes the first half of the current
+segment of A.  
+The second and third function calls, FUNC(A, s + cut1 + 1, s + cut1 + cut2) and 
+FUNC(A, s + cut1 + cut2 + 1, e), both essentially pass a quarter of the current segment of 
+the array.
+Thus: 
+
+\[ 
+  T(n/2) + T(n/4) + T(n/4) = T(n/2) + 2T(n/4)
+\]
+
+Since the whole array is printed if $ s \geq e $ for any given function call, we add $ n $ to the total runtime 
+of $T$.
 
 
 
