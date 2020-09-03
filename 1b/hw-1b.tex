@@ -119,7 +119,6 @@ Substitution Method: \\
 \[
   d \cdot n^3 \cdot log(n)
 \]
-\\
 \newpage
 
 
@@ -127,16 +126,38 @@ Substitution Method: \\
 3) (12 pt) Determine which case of the Master Theorem applies for the following recurrences. Include the values of
 a, b, and k (and ideally $b^k$) as proof of your selection. Also, include the final big-theta formula. 
 You also have teh option of a recurrence relation that cannot use the master method as described in class, 
-in which case, state it "fails". \\
+in which case, state it "fails". 
 
   a. $ T(n) = 2T (\frac{n}{2}) + \sqrt{n} $
 
 
 \newpage
-4)
+\textbf{4) (10 pt) Prove the correctness of the outer loop of the following 2D array summation using
+the loop invariant technique.}
+
+\begin{lstlisting}
+  sum_array(A[][])
+      sum = 0
+      for each row R
+          for each element j in R
+              sum = sum + j
+      return sum
+\end{lstlisting}
+
+\textbf{Initialization:} The variable called sum is set to 0 before any cells in the matrix were visited. \\
+
+\textbf{Maintenance:} Let $x$ be the current row in the matrix and let $y$ be the current column. Let's also use 
+zero-indexing. At cell $A[x][y]$ in the matrix, we know that, for rows 0 to x-1, every element in every column
+has been added to the sum. And, we know that, for the current row, x, every element in every element from 
+columns 0 to y has been added to the sum.  \\
+
+\textbf{Termination:} When the outer loop terminates, all rows have been visited. Since every cell is visited 
+when a single row is visited, we know that every cell has been visited. Therefore, sum contains the summation of
+every cell in array A. \\
 
 5)
 
+\newpage
 \textbf{6) (18 pt) Write the resulting recurrence relation (the T(n) piece-wise function) for the
 following pseudocode where A is an arrays of integers: } \\
 
